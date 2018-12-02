@@ -105,3 +105,5 @@ venv.bak/
 
 #custom
 *.dcm
+*.mhd
+*.raw
