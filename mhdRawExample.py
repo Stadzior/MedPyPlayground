@@ -20,10 +20,15 @@ def load_itk(filename):
 
     return ct_scan, origin, spacing
 
+oldMin = -3024
+oldMax = 0
+newMin = 0
+newMax = 255
+
 def arrayToRgbArray(value):
-    pixelValue = 255-(1000-value)
-    pixelValue = pixelValue if pixelValue > 0 else 0
-    pixelValue = pixelValue if pixelValue < 255 else 255
+    oldRange = (oldMax - oldMin)  
+    newRange = (newMax - newMin)  
+    pixelValue = (((value - oldMin) * newRange) / oldRange) + newMin
     return [pixelValue, pixelValue, pixelValue]
 
 os.chdir("./mhdraw")
@@ -32,12 +37,12 @@ for file in filter(lambda x: x.endswith(".mhd"), os.listdir(".")):
     print("-----------------CT SCAN-----------------")
     (height, width, depth) = ctScan.shape
     print("Dims: {}, {}, {}".format(height, width, depth))
-    for ctScan2d in ctScan[32:52]:
-        print(ctScan2d) 
-        ctScan2dRgb = np.asarray(list(map(lambda row: np.asarray(list(map(arrayToRgbArray, row))), ctScan2d)))
-        print(ctScan2dRgb)
-        img = Image.fromarray(ctScan2dRgb, 'RGB')
-        img.show()
+    ctScan2d = ctScan[47]
+    print(ctScan2d) 
+    ctScan2dRgb = np.asarray(list(map(lambda row: np.asarray(list(map(arrayToRgbArray, row))), ctScan2d)))
+    print(ctScan2dRgb)
+    img = Image.fromarray(ctScan2dRgb, 'RGB')
+    img.show()
     print("-----------------ORIGIN-----------------")
     print(origin)
     print("-----------------SPACING-----------------")
