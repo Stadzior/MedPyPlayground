@@ -20,18 +20,24 @@ def load_itk(filename):
 
     return ct_scan, origin, spacing
 
-np.set_printoptions(threshold=np.nan)
+def arrayToRgbArray(value):
+    pixelValue = 255-(1000-value)
+    pixelValue = pixelValue if pixelValue > 0 else 0
+    pixelValue = pixelValue if pixelValue < 255 else 255
+    return [pixelValue, pixelValue, pixelValue]
+
 os.chdir("./mhdraw")
 for file in filter(lambda x: x.endswith(".mhd"), os.listdir(".")):
-    [ct_scan, origin, spacing] = load_itk(file)
+    [ctScan, origin, spacing] = load_itk(file)
     print("-----------------CT SCAN-----------------")
-    print("Dims:{}".format(ct_scan.shape))
-    oneDimImage = ct_scan[242]
-    print(ct_scan[242])
-    boolToRgb = lambda value : [255,255,255] if value == 1 else [0,0,0]
-    boolToRgbVec = np.vectorize(boolToRgb)
-    rgb_ct_scan = boolToRgbVec(ct_scan[242])
-    img = Image.fromarray(oneDimImage, 'RGB')
+    (height, width, depth) = ctScan.shape
+    print("Dims: {}, {}, {}".format(height, width, depth))
+    for ctScan2d in ctScan[32:52]:
+        print(ctScan2d) 
+        ctScan2dRgb = np.asarray(list(map(lambda row: np.asarray(list(map(arrayToRgbArray, row))), ctScan2d)))
+        print(ctScan2dRgb)
+        img = Image.fromarray(ctScan2dRgb, 'RGB')
+        img.show()
     print("-----------------ORIGIN-----------------")
     print(origin)
     print("-----------------SPACING-----------------")
