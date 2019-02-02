@@ -37,11 +37,7 @@ for file in filter(lambda x: x.endswith(".mhd"), os.listdir(".")):
     print("-----------------CT SCAN-----------------")
     (height, width, depth) = ctScan.shape
     print("Dims: {}, {}, {}".format(height, width, depth))
-    ctScan2d = ctScan[47]
-    print(ctScan2d) 
-    ctScan2dRgb = np.asarray(list(map(lambda row: np.asarray(list(map(arrayToRgbArray, row))), ctScan2d)))
-    print(ctScan2dRgb)
-    img = Image.fromarray(ctScan2dRgb, 'RGB')
+    img = Image.frombuffer("I", (512,512), ctScan)
     img.show()
     print("-----------------ORIGIN-----------------")
     print(origin)
