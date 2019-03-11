@@ -10,11 +10,11 @@ for file in filter(lambda x: x.endswith(".raw"), os.listdir(".")):
     img_str = f.read()
 
     # converting to a uint16 numpy array
-    img_arr = np.fromstring(img_str, np.uint16)
+    img_arr = np.fromstring(img_str, np.int16)
     # get the first image and plot it
-    im1 = img_arr[512*512*46:512*512*47]
+    im1 = img_arr[512*512*10:512*512*11]
     
-    #im1.byteswap(inplace=True)
+    im1.byteswap(inplace=True)
     im1 = np.reshape(im1, (512, 512))
-    plt.imshow(im1, cmap=plt.cm.gray_r)
+    plt.imshow(im1, cmap=plt.cm.gray)
     plt.show()
