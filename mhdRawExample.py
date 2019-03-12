@@ -21,7 +21,7 @@ for file in filter(lambda x: x.endswith(".raw"), os.listdir(".")):
     # get the image and plot it
     layer = ct_image_layered[200]
     
-    #im1.byteswap(inplace=True)
+    #layer.byteswap(inplace=True)
     layer = np.reshape(layer, (512, 512))
     plt.imshow(layer, cmap=plt.cm.gray)
     plt.show()
