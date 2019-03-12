@@ -19,9 +19,9 @@ for file in filter(lambda x: x.endswith(".raw"), os.listdir(".")):
     layers_count = int(len(ct_image_as_vector) / layer_size)
     ct_image_layered = np.reshape(ct_image_as_vector, (layers_count, layer_size))
     # get the image and plot it
-    im1 = ct_image_layered[200]
+    layer = ct_image_layered[200]
     
     #im1.byteswap(inplace=True)
-    im1 = np.reshape(im1, (512, 512))
-    plt.imshow(im1, cmap=plt.cm.gray)
+    layer = np.reshape(layer, (512, 512))
+    plt.imshow(layer, cmap=plt.cm.gray)
     plt.show()
