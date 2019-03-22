@@ -10,8 +10,8 @@ for file in filter(lambda x: x.endswith(".raw"), os.listdir(".")):
     f = open(file, 'rb')
     img_str = f.read()
 
-    # converting to a uint16 numpy array
-    ct_image_as_vector = np.fromstring(img_str, np.int16)
+    # converting to a int16 numpy array
+    ct_image_as_vector = np.fromstring(img_str, dtype=np.int8) if "MM" in file else np.fromstring(img_str, np.int16)
 
     #layering
     layer_dimensions = (512, 512)
