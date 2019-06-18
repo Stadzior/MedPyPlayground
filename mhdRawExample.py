@@ -1,8 +1,8 @@
-import SimpleITK as sitk
 import numpy as np
-from PIL import Image
 import os
 import matplotlib.pyplot as plt
+from PIL import Image
+import skimage.io as io
 
 os.chdir("./mhdraw")
 
@@ -23,5 +23,11 @@ for file in filter(lambda x: x.endswith(".raw"), os.listdir(".")):
     
     #layer.byteswap(inplace=True)
     layer = np.reshape(layer, (512, 512))
+    
     plt.imshow(layer, cmap=plt.cm.gray)
     plt.show()
+    plt.figure()
+    plt.savefig("{0}_matplotlib.png".format(file))
+    image = Image.fromarray(layer, "1")
+    image.save("{0}_pil.png".format(file), "PNG")
+    io.imsave("{0}_skimage.png".format(file), layer)
