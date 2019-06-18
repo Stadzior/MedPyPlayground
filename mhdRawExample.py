@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 from PIL import Image
 import skimage.io as io
+import png
 
 os.chdir("./mhdraw")
 
@@ -26,8 +27,11 @@ for file in filter(lambda x: x.endswith(".raw"), os.listdir(".")):
     
     plt.imshow(layer, cmap=plt.cm.gray)
     plt.show()
-    plt.figure()
     plt.savefig("{0}_matplotlib.png".format(file))
     image = Image.fromarray(layer, "1")
     image.save("{0}_pil.png".format(file), "PNG")
     io.imsave("{0}_skimage.png".format(file), layer)
+    #png.Writer.write("{0}_pypng.png".format(file), layer)
+
+    fig = plt.figure(frameon=False)
+    fig.savefig("{0}_matplotlib2.png".format(file), bbox_inches='tight', pad_inches=0)
